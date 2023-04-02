@@ -1,10 +1,37 @@
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, useToast } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
 
 export default function ProjectCard({ project }) {
   const [enrolled, setEnrolled] = useState(false);
-
-  const handleClick = () => {
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  let user = JSON.parse(localStorage.getItem("userInfo"));
+  const handleClick = async (ProjectId) => {
+    try {
+      setLoading(true);
+      const data = await axios.post(
+        `http://localhost:8080/api/enroll`,
+        { ProjectId },
+        {
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      console.log(data);
+      setLoading(false);
+    } catch (err) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to load the Search Results",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+      setLoading(false);
+    }
     setEnrolled(true);
   };
   return (
@@ -23,7 +50,11 @@ export default function ProjectCard({ project }) {
         {project.description}
       </Text>
       {!enrolled && (
-        <Button colorScheme="blue" size="sm" onClick={handleClick}>
+        <Button
+          colorScheme="blue"
+          size="sm"
+          onClick={() => handleClick(project._id)}
+        >
           Enroll
         </Button>
       )}

@@ -1,27 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Flex, Heading, Grid, GridItem } from "@chakra-ui/react";
 import ProjectCard from "./ProjectCard";
-
-const projects = [
-  {
-    id: 1,
-    title: "Project 1",
-    description: "This is the description of project 1.",
-  },
-  {
-    id: 2,
-    title: "Project 2",
-    description: "This is the description of project 2.",
-  },
-  {
-    id: 3,
-    title: "Project 3",
-    description: "This is the description of project 3.",
-  },
-];
+import axios from "axios";
 
 export const ProjectFeed = () => {
+  const [data, setData] = useState([]);
+  //here we getting all the project..
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/get").then((res) => setData(res.data));
+  }, []);
   return (
     <Flex direction="column" alignItems="center">
       <Heading as="h2" size="xl" mb={8}>
@@ -35,8 +23,8 @@ export const ProjectFeed = () => {
         }}
         gap={6}
       >
-        {projects.map((project) => (
-          <GridItem key={project.id}>
+        {data?.map((project) => (
+          <GridItem key={project._id}>
             <ProjectCard project={project} />
           </GridItem>
         ))}

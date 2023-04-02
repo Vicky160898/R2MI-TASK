@@ -24,8 +24,8 @@ export default function Details({ task, onDelete, onEdit }) {
       <Td>{task.title}</Td>
       <Td>{task.description}</Td>
       <Td>
-        <Badge colorScheme={task.completed ? "green" : "gray"}>
-          {task.completed ? "Completed" : "Incomplete"}
+        <Badge colorScheme={task.isCompleted ? "green" : "red"}>
+          {task.isCompleted ? "Completed" : "Incomplete"}
         </Badge>
       </Td>
       <Td>

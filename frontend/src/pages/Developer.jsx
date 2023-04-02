@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -17,6 +17,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Details from "./Details";
+import axios from "axios";
 const tasks = [
   {
     id: 1,
@@ -40,7 +41,8 @@ const tasks = [
 export default function Developer() {
   const [editingTask, setEditingTask] = useState(null);
   const [deletingTask, setDeletingTask] = useState(null);
-
+  const [data, setData] = useState([]);
+  let user = JSON.parse(localStorage.getItem("userInfo"));
   const handleEditTask = (task) => {
     setEditingTask(task);
   };
@@ -48,6 +50,20 @@ export default function Developer() {
   const handleDeleteTask = (task) => {
     setDeletingTask(task);
   };
+
+  //here we getting all the project..
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/get/own/details", {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      })
+      .then((res) => setData(res.data));
+  }, []);
+
+  console.log(data);
+
   return (
     <Flex direction="column" alignItems="center">
       <Heading as="h2" size="xl" mb={8}>
@@ -64,9 +80,9 @@ export default function Developer() {
             </Tr>
           </Thead>
           <Tbody>
-            {tasks.map((task) => (
+            {data?.map((task) => (
               <Details
-                key={task.id}
+                key={task._id}
                 task={task}
                 onDelete={handleDeleteTask}
                 onEdit={handleEditTask}

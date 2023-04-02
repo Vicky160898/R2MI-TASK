@@ -79,15 +79,6 @@ export const Navbar = () => {
                 <Link>
                   <MenuItem>Profile</MenuItem>
                 </Link>
-                <MenuItem>
-                  {/* {UserRole === "Admin" ? (
-                      <Link to="/add">Add Prodcut</Link>
-                    ) : ( */}
-                  <Text>
-                    <Link to="/cart">Cart</Link>
-                  </Text>
-                  {/* )} */}
-                </MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={handleOut}>Log Out</MenuItem>
               </MenuList>
