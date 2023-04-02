@@ -15,7 +15,6 @@ const projectSchema = new Schema({
   },
   dueDate: {
     type: Date,
-    required: true,
   },
   team: {
     type: Schema.Types.ObjectId,

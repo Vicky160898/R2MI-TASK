@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const teamSchema = new Schema({
+  //preject means projectID.
   project: {
     type: Schema.Types.ObjectId,
     ref: "Project",
@@ -9,7 +10,6 @@ const teamSchema = new Schema({
   administrator: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
   developers: [
     {
