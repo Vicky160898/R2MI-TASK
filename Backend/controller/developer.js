@@ -3,8 +3,12 @@ const User = require("../model/developerModel");
 const argon2 = require("argon2");
 
 //here we creating the developer through the sign up and login..
+
 const UserRegister = async (req, res) => {
   const { fullName, email, password, role } = req.body;
+
+  //here we hashing the password..
+
   const hash = await argon2.hash(password);
   const finduser = await User.findOne({ email });
   try {
@@ -24,6 +28,7 @@ const UserRegister = async (req, res) => {
 };
 
 //here we performing the authentication process taking password and email from user..
+
 const UserLogin = async (req, res) => {
   const { email, password } = req.body;
   const finduser = await User.findOne({ email });
@@ -43,7 +48,5 @@ const UserLogin = async (req, res) => {
     return res.status(401).send("Something wents wrong");
   }
 };
-
-
 
 module.exports = { UserRegister, UserLogin };

@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 
+//this is the Developer model whoever login it's by default developer because all user will be developer
+
 const userSchema = new Schema({
   fullName: {
     type: String,
@@ -19,6 +21,8 @@ const userSchema = new Schema({
     default: "Developer",
   },
 });
+
+// Define the models for user.
 
 const User = model("User", userSchema);
 

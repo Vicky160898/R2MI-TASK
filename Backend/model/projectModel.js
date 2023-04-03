@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 
+//this is the Schema structure for project
+
 const projectSchema = new Schema({
   title: {
     type: String,
@@ -21,6 +23,8 @@ const projectSchema = new Schema({
     ref: "Team",
   },
 });
+
+// Define the models for  project.
 
 const Project = model("Project", projectSchema);
 

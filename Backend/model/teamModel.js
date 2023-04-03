@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 
+//this is the Schema structure for team
+
 const teamSchema = new Schema({
   //preject means projectID.
   project: {
@@ -7,18 +9,16 @@ const teamSchema = new Schema({
     ref: "Project",
     required: true,
   },
-  administrator: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
   developers: [
     {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      role: String,
     },
   ],
 });
+
+// Define the models for team.
 
 const Team = model("Team", teamSchema);
 

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 //here we are connectinng mongodb atlash connection..
+
 const connect = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URL, {
