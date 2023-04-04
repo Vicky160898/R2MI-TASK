@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 //the help of token we identify the access of the developer what access they have.
 
 const generateToken = (user) => {
-  console.log(user);
   const token = jwt.sign(
     {
       id: user._id,

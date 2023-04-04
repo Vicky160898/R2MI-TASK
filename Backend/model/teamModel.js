@@ -9,11 +9,14 @@ const teamSchema = new Schema({
     ref: "Project",
     required: true,
   },
+  administrator: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   developers: [
     {
       type: Schema.Types.ObjectId,
       ref: "User",
-      role: String,
     },
   ],
 });

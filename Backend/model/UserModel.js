@@ -20,6 +20,18 @@ const userSchema = new Schema({
     type: String,
     default: "Developer",
   },
+  administratorProject: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Project",
+    },
+  ],
+  project: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Project",
+    },
+  ],
 });
 
 // Define the models for user.

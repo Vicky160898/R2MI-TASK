@@ -1,6 +1,6 @@
 const Project = require("../model/projectModel");
 const Team = require("../model/teamModel");
-
+const User = require("../model/UserModel");
 //here we posting project...
 
 const CreateProject = async (req, res) => {
@@ -11,6 +11,7 @@ const CreateProject = async (req, res) => {
       description,
       isCompleted,
     });
+
     return res.status(201).send(project);
   } catch (error) {
     return res.status(401).send("Something wents wrong");
@@ -29,91 +30,51 @@ const GetProjects = async (req, res) => {
 
 const EnrollProject = async (req, res) => {
   const { ProjectId } = req.body;
-  console.log(ProjectId);
-  const project = await Project.findById(ProjectId);
-
-  if (!project) {
-    return res.status(404).send("Project not found");
-  }
-
-  let team = await Team.findOne({ ProjectId });
-
-  if (!team) {
-    // create a new team with the developer as the administrator
-    team = new Team({
-      project: ProjectId,
-      developers: [{ developer: req.id, role: "Admin" }],
-    });
-    await team.save();
-  } else {
-    // check if the developer is already enrolled in the team
-    const enrolledDeveloper = team.developers.find(
-      (dev) => dev.developer.toString() === req.id
-    );
-    if (enrolledDeveloper) {
-      return res.status(400).send("Developer already enrolled");
+  try {
+    const FindProject = await Team.find({ project: ProjectId });
+    if (FindProject.length === 0) {
+      const CreateTeam = await Team.create({
+        project: ProjectId,
+        administrator: req.id,
+        developers: [],
+      });
+      //here we push administrator team id in project Schema...
+      await User.findByIdAndUpdate(
+        { _id: req.id },
+        { $push: { administratorProject: ProjectId } }
+      );
+      return res.status(201).send(CreateTeam);
+    } else {
+      // here we checking the developer already present or not in team..
+      const obj = FindProject.find((obj) => obj.developers.includes(req.id));
+      if (obj?.administrator != req.id) {
+        if (!obj?.developers?.includes(req.id)) {
+          let DeveloperArray = await Team.findOneAndUpdate(
+            { project: ProjectId },
+            { $push: { developers: req.id } },
+            { new: true }
+          );
+          //here we push project id in project Schema...
+          await User.findByIdAndUpdate(
+            { _id: req.id },
+            { $push: { project: ProjectId } }
+          );
+          return res.send(DeveloperArray);
+        } else {
+          return res.send("You already Involved in this Project..");
+        }
+      } else {
+        return res.send("You are administror of this Project..");
+      }
     }
-    // add the developer to the team with the role of "Developer"
-    team.developers.push({ developer: req.id, role: "Developer" });
-    await team.save();
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Something went wrong.");
   }
-
-  // return the updated team object
-  const populatedTeam = await team
-    .populate("developers.developer")
-    .execPopulate();
-  res.json(populatedTeam);
-};
-
-// const EnrollProject = async (req, res) => {
-//   const { ProjectId } = req.body;
-//   try {
-//     const FindProject = await Team.findOne({ project: ProjectId });
-//     if (!FindProject) {
-//       const CreateTeam = await Team.create({
-//         project: ProjectId,
-//         administrator: req.id,
-//         developers: [],
-//       });
-
-//       //here we push team id in project Schema...
-
-//       await Project.findByIdAndUpdate(
-//         ProjectId,
-//         { team: CreateTeam._id },
-//         { new: true }
-//       );
-//       return res.send(CreateTeam);
-//     } else {
-//       // here we checking the developer already present or not in team..
-
-//       if (!FindProject.developers.includes(req.id)) {
-//         let DeveloperArray = await Team.findOneAndUpdate(
-//           { project: ProjectId },
-//           { $push: { developers: req.id } },
-//           { new: true }
-//         );
-//         return res.send(DeveloperArray);
-//       } else {
-//         return res.send("You already Involved in this Project..");
-//       }
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).send("Something went wrong.");
-//   }
-// };
-
-//here we getting our own project and i have a part of that project..
-
-const OwnProjectDetail = async (req, res) => {
-  const findProject = await Project.find({}).populate("team"); //here we populating the team details..
-  res.status(201).send(findProject);
 };
 
 module.exports = {
   CreateProject,
   GetProjects,
   EnrollProject,
-  OwnProjectDetail,
 };

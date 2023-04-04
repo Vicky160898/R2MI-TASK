@@ -1,5 +1,5 @@
 const generateToken = require("../config/generateToken");
-const User = require("../model/developerModel");
+const User = require("../model/UserModel");
 const argon2 = require("argon2");
 
 //here we creating the developer through the sign up and login..
@@ -49,4 +49,12 @@ const UserLogin = async (req, res) => {
   }
 };
 
-module.exports = { UserRegister, UserLogin };
+//here we getting our own project...
+const OwnProjectDetail = async (req, res) => {
+  const findProject = await User.find({ _id: req.id })
+    .populate("project")
+    .populate("administratorProject"); //here we populating the team details..
+  res.status(201).send(findProject);
+};
+
+module.exports = { UserRegister, UserLogin, OwnProjectDetail };

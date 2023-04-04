@@ -20,6 +20,7 @@ const GetTeamProject = async (req, res) => {
 //here administrator delete the developer..
 const DeleteDeveloper = async (req, res) => {
   const { DeveloperId } = req.params;
+  //console.log(DeveloperId)
   try {
     let developer = await Team.findOneAndUpdate(
       { administrator: req.id },

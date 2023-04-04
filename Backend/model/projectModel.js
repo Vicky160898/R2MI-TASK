@@ -18,10 +18,10 @@ const projectSchema = new Schema({
   dueDate: {
     type: Date,
   },
-  team: {
-    type: Schema.Types.ObjectId,
-    ref: "Team",
-  },
+  // team: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Team",
+  // },
 });
 
 // Define the models for  project.
