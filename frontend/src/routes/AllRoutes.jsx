@@ -4,14 +4,36 @@ import { ProjectFeed } from "../pages/ProjectFeed";
 import Developer from "../pages/Developer";
 import Team from "../pages/Team";
 import Home from "../pages/Home";
+import PrivateRoutes from "./PrivateRoutes";
 
 export default function AllRoutes() {
   return (
     <Routes>
-      <Route path="/project" element={<ProjectFeed />} />
+      <Route
+        path="/project"
+        element={
+          <PrivateRoutes>
+            <ProjectFeed />
+          </PrivateRoutes>
+        }
+      />
       <Route path="/" element={<Home />} />
-      <Route path="/developer" element={<Developer />} />
-      <Route path="/team" element={<Team />} />
+      <Route
+        path="/developer"
+        element={
+          <PrivateRoutes>
+            <Developer />
+          </PrivateRoutes>
+        }
+      />
+      <Route
+        path="/team"
+        element={
+          <PrivateRoutes>
+            <Team />
+          </PrivateRoutes>
+        }
+      />
     </Routes>
   );
 }

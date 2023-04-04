@@ -13,17 +13,14 @@ import {
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiChevronDown } from "react-icons/fi";
+import { useEffect } from "react";
+let user = JSON.parse(localStorage.getItem("userInfo"));
 export const Navbar = () => {
-  //   const navigate = useNavigate();
-  //   let Username = localStorage.getItem("userName");
-  //   let UserRole = localStorage.getItem("userRole");
-  //   let UserToken = localStorage.getItem("userToken");
+  const navigate = useNavigate();
   const handleOut = () => {
-    //     localStorage.removeItem("userToken");
-    //     localStorage.removeItem("userName");
-    //     localStorage.removeItem("userRole");
-    //     navigate("/login");
-    //     return;
+    localStorage.removeItem("userInfo");
+    navigate("/");
+    return;
   };
   return (
     <>
@@ -39,8 +36,8 @@ export const Navbar = () => {
         border={"1px #CBCECA solid"}
       >
         <Link to="/">
-          <Text fontSize={30} color="#0A0103" fontWeight="bold" ml={"40px"}>
-            Project Manager App
+          <Text fontSize={25} color="#0A0103" fontWeight="bold" ml={"40px"}>
+            R2MI Project App
           </Text>
         </Link>
 
@@ -62,10 +59,10 @@ export const Navbar = () => {
                     spacing="1px"
                     ml="2"
                   >
-                    <Text fontSize="m">Profile</Text>
-                    <Text fontSize="m" color="gray.600">
-                      Role
+                    <Text fontSize="m">
+                      {user?.fullName ? user?.fullName : "Profile"}
                     </Text>
+                    <Text fontSize="m">{user?.email ? user?.email : ""}</Text>
                   </VStack>
                   <Box display={{ base: "none", md: "flex" }}>
                     <FiChevronDown size={"30px"} />

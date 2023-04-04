@@ -26,7 +26,7 @@ export default function Login() {
         status: "warning",
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: "top",
       });
       setLoading(false);
       return;
@@ -47,7 +47,7 @@ export default function Login() {
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: "top",
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
@@ -65,7 +65,7 @@ export default function Login() {
   };
   const handleClick = () => setShow(!show);
   return (
-    <VStack spacing={"5px"} >
+    <VStack spacing={"5px"}>
       <FormControl id="email" isRequired>
         <FormLabel>Email</FormLabel>
         <Input

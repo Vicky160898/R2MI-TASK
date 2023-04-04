@@ -19,16 +19,26 @@ export default function ProjectCard({ project }) {
           },
         }
       );
-      console.log(data);
-      setLoading(false);
+      if (data.status === 200) {
+        toast({
+          title: `Group Created`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+        console.log(data);
+        setLoading(false);
+        return;
+      }
     } catch (err) {
       toast({
         title: "Error Occured!",
-        description: "Failed to load the Search Results",
+        description: "Something wents wrong",
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: "bottom-left",
+        position: "top",
       });
       setLoading(false);
     }
@@ -40,7 +50,7 @@ export default function ProjectCard({ project }) {
       borderRadius="md"
       boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
       p={4}
-      width={{ base: "100%", md: "90%", lg: "80%" }}
+      width={{ base: "100%", md: "90%", lg: "100%" }}
       mb={4}
     >
       <Heading as="h3" size="md" mb={2}>

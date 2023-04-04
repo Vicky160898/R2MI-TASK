@@ -39,14 +39,8 @@ export default function Home() {
             borderRadius="lg"
             borderWidth={"1px"}
           >
-            {/* <Avatar
-              width={"10%"}
-              borderRadius="50%"
-              src="https://thumbs.gfycat.com/FocusedMediumAcornbarnacle-size_restricted.gif"
-              alt="gif"
-            /> */}
             <Text fontSize={"4xl"} fontFamily="Work sans" color={"black"}>
-              Project Manager App
+              R2MI Project App
             </Text>
           </Box>
         </Box>
