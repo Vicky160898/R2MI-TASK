@@ -13,12 +13,16 @@ import {
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiChevronDown } from "react-icons/fi";
-import { useEffect } from "react";
+
 let user = JSON.parse(localStorage.getItem("userInfo"));
 export const Navbar = () => {
   const navigate = useNavigate();
+
+  //here we logout the user after logout deleting delete of the user from local storage..
+
   const handleOut = () => {
     localStorage.removeItem("userInfo");
+    window.location.reload();
     navigate("/");
     return;
   };

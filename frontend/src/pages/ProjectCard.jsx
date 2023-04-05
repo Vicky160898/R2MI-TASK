@@ -4,12 +4,10 @@ import { useState } from "react";
 
 export default function ProjectCard({ project }) {
   const [enrolled, setEnrolled] = useState(false);
-  const [loading, setLoading] = useState(false);
   const toast = useToast();
   let user = JSON.parse(localStorage.getItem("userInfo"));
   const handleClick = async (ProjectId) => {
     try {
-      setLoading(true);
       const data = await axios.post(
         `http://localhost:8080/api/enroll`,
         { ProjectId },
@@ -19,16 +17,26 @@ export default function ProjectCard({ project }) {
           },
         }
       );
-      if (data.status === 200) {
+      if (data.status === 201) {
         toast({
-          title: `Group Created`,
+          title: `Team Created`,
           status: "success",
           duration: 5000,
           isClosable: true,
           position: "top",
         });
-        console.log(data);
-        setLoading(false);
+        setEnrolled(true);
+        return;
+      }
+      if (data.status === 200) {
+        toast({
+          title: `You Already Part of this project`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+        setEnrolled(true);
         return;
       }
     } catch (err) {
@@ -40,7 +48,6 @@ export default function ProjectCard({ project }) {
         isClosable: true,
         position: "top",
       });
-      setLoading(false);
     }
     setEnrolled(true);
   };

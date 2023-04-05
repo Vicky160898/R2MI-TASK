@@ -17,12 +17,11 @@ export default function Developer() {
       .then((res) => setData(res.data));
   }, []);
 
-  //console.log(data);
 
   return (
     <Flex direction="column" alignItems="center">
       <Heading as="h2" size="lg" mb={8} mt={10}>
-        You have Part of this Team Project As A Developer
+        You are Part of this Team Project as a Developer
       </Heading>
       <Box width={{ base: "60%", md: "60%" }} textAlign={"center"}>
         {data?.map((el, i) => (
