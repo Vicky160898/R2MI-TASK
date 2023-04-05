@@ -33,6 +33,7 @@ const UserLogin = async (req, res) => {
   const { email, password } = req.body;
   const finduser = await User.findOne({ email });
   try {
+    //here we verifying the password through argon2..
     if (finduser && (await argon2.verify(finduser.password, password))) {
       return res.status(201).send({
         _id: finduser._id,
